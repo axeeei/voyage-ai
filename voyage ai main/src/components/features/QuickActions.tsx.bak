@@ -1,0 +1,54 @@
+import { ImagePlus, Lightbulb, GraduationCap, BarChart2, Code2, PenLine, Globe, Dumbbell } from 'lucide-react';
+
+const ACTIONS = [
+  { icon: ImagePlus, label: 'Create image', color: '#10b981', prompt: 'I want to create an image. Please guide me with detailed questions about what I want to generate.' },
+  { icon: Lightbulb, label: 'Make a plan', color: '#f59e0b', prompt: 'Help me make a plan. Ask me what I want to plan and guide me step by step.' },
+  { icon: GraduationCap, label: 'Get advice', color: '#3b82f6', prompt: 'I need advice. Ask me about my situation and give me your best, honest guidance.' },
+  { icon: BarChart2, label: 'Analyze data', color: '#06b6d4', prompt: 'I want to analyze data. Ask me what data I have and what insights I\'m looking for.' },
+  { icon: Code2, label: 'Write code', color: '#8b5cf6', prompt: 'Help me write or debug code. Ask me what I\'m building and in what language.' },
+  { icon: PenLine, label: 'Write content', color: '#ec4899', prompt: 'Help me write something. Ask me what type of content and the details I want.' },
+  { icon: Globe, label: 'Translate', color: '#f97316', prompt: 'Help me translate text. Ask me what I want to translate and to which language.' },
+  { icon: Dumbbell, label: 'Health & fitness', color: '#84cc16', prompt: 'Give me health and fitness guidance. Ask about my goals, current routine, and any constraints.' },
+];
+
+interface QuickActionsProps {
+  onSelect: (prompt: string) => void;
+}
+
+export default function QuickActions({ onSelect }: QuickActionsProps) {
+  // Show first row of 3, second row of 1 (like screenshot) — but we'll do scrollable row
+  const row1 = ACTIONS.slice(0, 3);
+  const row2 = ACTIONS.slice(3, 5);
+  const row3 = ACTIONS.slice(5, 8);
+
+  const ActionButton = ({ action }: { action: typeof ACTIONS[0] }) => {
+    const Icon = action.icon;
+    return (
+      <button
+        onClick={() => onSelect(action.prompt)}
+        className="flex items-center gap-2 px-3.5 py-2 rounded-full text-white/80 text-[13px] font-[400] whitespace-nowrap active:scale-95 transition-transform"
+        style={{
+          border: '1px solid rgba(255,255,255,0.12)',
+          background: 'rgba(255,255,255,0.04)',
+        }}
+      >
+        <Icon size={15} color={action.color} strokeWidth={1.8} />
+        <span>{action.label}</span>
+      </button>
+    );
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-2.5 w-full px-4">
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        {row1.map(a => <ActionButton key={a.label} action={a} />)}
+      </div>
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        {row2.map(a => <ActionButton key={a.label} action={a} />)}
+      </div>
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        {row3.map(a => <ActionButton key={a.label} action={a} />)}
+      </div>
+    </div>
+  );
+}
